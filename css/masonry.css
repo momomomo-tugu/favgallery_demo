@@ -1,0 +1,28 @@
+.masonry-wrap{
+	width: 100%;
+	margin: 0 auto;
+}
+
+.masonry-indexView {
+    list-style: none;
+    width: 100%;
+    margin: 0 auto; 
+    padding: 0;
+}
+
+.masonry-tagsSearchView {
+    list-style: none;
+    width: 100%;
+    padding: 0;
+}
+
+.item {
+    width: 300px;
+}
+
+.item img {
+    width: 100%;
+}
+
+
+
