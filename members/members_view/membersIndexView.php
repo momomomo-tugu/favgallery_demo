@@ -15,8 +15,8 @@
                 <?php foreach ($myitem as $item) { ?>
                     <li class="item js-item">
                         <div class="card">
-                            <a href="items_detail.php?id=<?= $item['id'] ?>">
-                                <img src="../../assets/images/<?= htmlspecialchars($item['image_path']) ?>">
+                            <a href="../../items/items_controller/items_detail.php?id=<?= $item['id'] ?>">
+                                <img src="../../assets/images/<?= htmlspecialchars($item['image_path']) ?>.png">
                             </a>
                             <p class="thumbnailTitle"><?= htmlspecialchars($item['title']) ?></p>
                         </div>

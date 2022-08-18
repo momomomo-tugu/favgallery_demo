@@ -8,8 +8,20 @@
 
 <body>
   <header class="header">
-    <h1 class="header__mainTitle"><a href="../../items/items_controller/items_index.php" class="header__indexLink">FAV GALLERY</a></h1>
-    <p>ようこそ ゲスト様</p>
+    <div class="header__navigation">
+      <div>
+        <a href="../../items/items_controller/items_index.php" class="header__navigation__indexLink">FAV GALLERY</a></h1>
+      </div>
+      <nav class="header__navigation__globalLink">
+        <a href="../../items/items_controller/items_form.php" class="header__navigation__globalLink__choices">作品を登録</a>
+        <a href="../../tags/tags_controller/tags_form.php" class="header__navigation__globalLink__choices">タグを登録</a>
+        <a href="../../tags/tags_controller/tags_index.php" class="header__navigation__globalLink__choices">タグ一覧</a>
+        <a href="../../members/members_controller/members_index.php" class="header__navigation__globalLink__choices">マイページ</a>
+      </nav>
+    </div>
+    <div class="header__whois">
+      <p>ようこそ ゲスト様</p>
+    </div>
   </header>
 
   <main class="mainContainer">
@@ -22,6 +34,7 @@
       <div class="formContent">
         <label for="password">パスワード</label>
         <input type="password" name="password" id="password" class="loginFormContent" />
+        <a href="../../members/members_controller/members_passResetForm.php" class="passResetLink">パスワードを忘れた方はこちら</a>
       </div>
       <div class="loginButton__wrapper">
         <button class="loginButton">ログイン</button>

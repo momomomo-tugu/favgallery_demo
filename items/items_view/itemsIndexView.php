@@ -3,6 +3,7 @@
 
 <head>
   <title>FAV GALLERY | トップページ</title>
+  <link rel="stylesheet" href="../../css/html5reset-1.6.1.css">
   <link rel="stylesheet" href="../../css/style.css">
   <link rel="stylesheet" href="../../css/masonry.css">
 </head>
@@ -15,7 +16,7 @@
           <li class="item js-item">
             <div class="card">
               <a href="items_detail.php?id=<?= $item['id'] ?>">
-                <img src="../../assets/images/<?= htmlspecialchars($item['image_path']) ?>">
+                <img src="../../assets/images/<?= htmlspecialchars($item['image_path']) ?>.png">
               </a>
               <p class="thumbnailTitle"><?= htmlspecialchars($item['title']) ?></p>
             </div>
@@ -29,6 +30,7 @@
   <script src="../../js/masonry.pkgd.min.js"></script>
   <script src="../../js/imagesloaded.pkgd.min.js"></script>
   <script src="../../js/main.js"></script>
+  <script src="../../js/hamburger.js"></script>
 
 </body>
 

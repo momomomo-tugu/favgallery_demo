@@ -1,0 +1,83 @@
+.itemDetail__head {
+    display: flex;
+    align-items: center;
+}
+
+.itemDetail__headImage {
+    max-width: 80%;
+}
+
+.itemDetail__description {
+    font-size: 14px;
+}
+
+.itemDetail__title {
+    color: #666;
+    font-size: 25px;
+    font-weight: normal;
+    border-bottom: 1px solid #c0c0c0;
+}
+
+.itemDetail__headInfo {
+    margin-left: 50px;
+    max-width: 50%;
+}
+
+.itemDetail__image {
+    width: 100%;
+}
+
+.itemDetail__tags {
+    list-style: none;
+    padding-left: 0;
+    display: flex;
+    margin-left: 5px;
+    flex-wrap: wrap;
+}
+
+.itemDetail__tagList {
+    margin-right: 20px;
+    font-size: 14px;
+    margin-bottom: 3px;
+}
+
+.itemDetail__tagLink {
+    text-decoration: none;
+    color: #000;
+}
+
+.itemDetail__tagLink:hover {
+    color: rgb(175, 175, 175);
+}
+
+.itemDetail__commentline {
+    border-bottom: 1px dotted #999;
+}
+
+.itemDetail__commentName {
+    margin-bottom: 15px;
+}
+
+.itemDetail__commentForm {
+    width: 100%;
+}
+
+.itemDetail__commentButton {
+    margin-top: 10px;
+}
+
+.itemDetail__commenter {
+    border-bottom: 1px dotted #999;
+}
+
+.itemDetail__comment {
+    border-right: 1px solid #999;
+    border-left: 1px solid #999;
+    border-bottom: 1px dotted #999;
+    width: 500px;
+}
+
+.itemDetail__commentDate {
+    padding-left: 20px;
+    border-bottom: 1px dotted #999;
+}

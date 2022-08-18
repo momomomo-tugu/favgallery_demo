@@ -2,16 +2,8 @@
 require_once('../../members/Member.php');
 session_start();
 
-class LoginModel
+class LoginModel extends Common
 {
-
-  function csrf()
-  {
-    $toke_byte = random_bytes(16);
-    $csrf_token = bin2hex($toke_byte);
-    $_SESSION['csrf_token'] = $csrf_token;
-    return array($csrf_token, $_SESSION['csrf_token']);
-  }
 
   function form()
   {
@@ -27,11 +19,11 @@ class LoginModel
       $member_name = $_POST['member_name'];
       $password = $_POST['password'];
 
-      $staff = Member::find_account($member_name, $password);
-      if (!empty($staff)) {
+      $member = Member::find_account($member_name, $password);
+      if (!empty($member)) {
         session_regenerate_id();
         $_SESSION['member'] = $member_name;
-        $_SESSION['member_id'] = $staff['id'];
+        $_SESSION['member_id'] = $member['id'];
         header('Location: ../../items/items_controller/items_index.php');
       } else {
         echo 'ログインできませんでした。';

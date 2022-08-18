@@ -1,75 +1,21 @@
 <?php
 session_start();
+
+require_once('../../Common.php');
 require_once('Item.php');
 require_once('../../tags/Tag.php');
+require_once('../../vendor/autoload.php');
 
-class ItemsModel
+// use \Verot\Upload\Upload;
+
+
+class ItemsModel extends Common
 {
-
-    private function csrf()
-    {
-        $toke_byte = random_bytes(16);
-        $csrf_token = bin2hex($toke_byte);
-        $_SESSION['csrf_token'] = $csrf_token;
-        return array($csrf_token, $_SESSION['csrf_token']);
-    }
-
-    private function whois()
-    {
-        if (isset($_SESSION['member'])) {
-            $login_user = $_SESSION['member'];
-            $linkUrl = '../../login/login_controller/login_logout.php';
-            $linkWord = 'ログアウト';
-        } else {
-            $login_user = 'ゲスト';
-            $linkUrl = '../../login/login_controller/login_form.php';
-            $linkWord = '会員ログイン';
-        }
-        return array($login_user, $linkUrl, $linkWord);
-    }
-
-    private function header()
-    {
-        list($login_user, $linkUrl, $linkWord) = $this->whois();
-        echo '
-            <header class="header">
-                <div class="header__navigation">
-                    <div>
-                        <a href="items_index.php" class="header__navigation__indexLink">FAV GALLERY</a>
-                    </div>
-                    <nav class="header__navigation__globalLink">
-                        <a href="items_form.php" class="header__navigation__globalLink__choices">作品を登録</a>
-                        <a href="../../tags/tags_controller/tags_form.php" class="header__navigation__globalLink__choices">タグを登録</a>
-                        <a href="../../tags/tags_controller/tags_index.php" class="header__navigation__globalLink__choices">タグ一覧</a>
-                        <a href="../../members/members_controller/members_index.php" class="header__navigation__globalLink__choices">マイページ</a>
-                    </nav>
-                </div>
-        ';
-        echo '<div class="header__whois">';
-        echo '<p>ようこそ ' . htmlspecialchars($login_user) . '様</p>';
-        echo '<a href="' . $linkUrl . '" class="header__whois__loginout">' . htmlspecialchars($linkWord) . '</a>';
-        echo '</div></header>';
-    }
-
-    // private function index()
-    // {
-    //     // アイテム一覧画面へ移行
-    //     // $this->header();
-    //     $items = Item::allItem();
-    //     // $items = new Item();
-    //     // $items->allItem();
-    //     require_once('items_view/itemsIndexView.php');
-    // }
-
-    // public 
-
     private function index()
     {
         // アイテム一覧画面へ移行
         $this->header();
-        // $items = Item::allItem();
-        $item = new Item();
-        $items = $item->allItem();
+        $items = Item::allItem();
         require_once('items_view/itemsIndexView.php');
     }
 
@@ -78,22 +24,18 @@ class ItemsModel
         return $this->index();
     }
 
-    private function form()
+    function form()
     {
         // アイテム登録画面へ移行
         if (isset($_SESSION['member'])) {
             $this->header();
             list($csrf_token, $_SESSION['csrf_token']) = $this->csrf();
+            $id = $_SESSION['member_id'];
             $tags = Tag::get_allTags();
             require_once('items_view/itemsFormView.php');
         } else {
             header('Location: ../../login/login_controller/login_form.php');
         }
-    }
-
-    public function get_form()
-    {
-        return $this->form();
     }
 
     function itemRegister()
@@ -115,7 +57,25 @@ class ItemsModel
                 require_once('items_view/itemsFormView.php');
             } else {
                 $image_hash = hash_file('md5', $item_image['tmp_name']);
-                move_uploaded_file($item_image['tmp_name'], "../../assets/images/${image_hash}");
+                $handle = new \Verot\Upload\Upload($_FILES['item_image'], 'ja_JP');
+                if ($handle->uploaded) {
+                    $handle->file_overwrite     = TRUE;
+                    $handle->image_resize       = true;
+                    $handle->image_convert      = 'png';
+                    $handle->file_auto_rename   = false;
+                    $handle->file_src_name_body = $image_hash;
+                    $handle->image_ratio_y      = true;
+                    $handle->image_x            = 920;
+                }
+
+                $handle->process('../../assets/images/');
+                if ($handle->processed) {
+                    // var_dump($handle);
+                    $handle->clean();
+                } else {
+                    echo '写真の登録に失敗しました';
+                    echo 'error : ' . $handle->error;
+                }
                 $item_taglist = implode(",", $item_tag);
 
                 $item = new Item();
@@ -176,5 +136,72 @@ class ItemsModel
     public function get_itemDetail()
     {
         return $this->itemDetail();
+    }
+
+    function itemEditerForm()
+    {
+        $id = $_GET['id'];
+
+        $this->header();
+        list($csrf_token, $_SESSION['csrf_token']) = $this->csrf();
+        $selectedItem = Item::getItem($id);
+        $tags = Tag::get_allTags();
+        require_once('items_view/itemsEditerView.php');
+    }
+
+    function itemEditer()
+    {
+        // アイテム更新
+        if (isset($_POST['csrf_token']) && $_POST['csrf_token'] === $_SESSION['csrf_token']) {
+            $item_id          = $_POST['item_id'];
+            $item_contributor = $_POST['contributor'];
+            $item_title       = $_POST['item_title'];
+            $item_description = $_POST['item_description'];
+            $item_tag         = $_POST['tags'];
+            $item_release     = $_POST['release'];
+
+            $item_taglist = implode(",", $item_tag);
+
+            $item = new Item();
+            $item->id          = $item_id;
+            $item->contributor = $item_contributor;
+            $item->title       = $item_title;
+            $item->description = $item_description;
+            $item->tags        = $item_taglist;
+            $item->release     = $item_release;
+            if ($item->itemUpdate()) {
+                header('Location: items_editerForm.php?id=' . $item_id);
+            } else {
+                echo '登録に失敗しました。';
+            }
+        } else {
+            header('Location: items_form.php');
+        }
+    }
+
+    function itemDelete()
+    {
+        if (isset($_POST['csrf_token']) && $_POST['csrf_token'] === $_SESSION['csrf_token']) {
+            $id    = $_POST['item_id'];
+            $image = $_POST['item_image'];
+
+            $image_path = '../../assets/images/' . $image . '.png';
+            $image_deletepath = '../../assets/deletedImages/' . $image . '.png';
+
+            if (rename($image_path, $image_deletepath)) {
+                $item = new Item();
+                $item->id = $id;
+                $item->image = $image;
+                if ($item->itemDelete()) {
+                    unlink('../../assets/deletedImages/' . $image . '.png');
+                    header('Location: ../../members/members_controller/members_index.php');
+                } else {
+                    rename($image_deletepath, $image_path);
+                    echo '削除に失敗しました';
+                }
+            } else {
+                echo '削除に失敗しました';
+            }
+        }
     }
 }

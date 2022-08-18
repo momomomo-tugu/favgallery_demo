@@ -1,0 +1,52 @@
+.itemRegistForm {
+    width: 50%;
+}
+
+.itemDescriptionForm {
+    height: 100px;
+}
+
+.itemTitleForm {
+    height: 20px;
+}
+
+.tagSelectCaption {
+    font-size: 13px;
+}
+
+.formLabel__span {
+    font-size: 12px;
+    color: #f00;
+}
+
+.formContent {
+    margin-bottom: 20px;
+}
+
+.formLabel {
+    display: inline-block;
+    padding-bottom: 2px;
+}
+
+.registFormContent {
+    width: 100%;
+}
+
+.registButton {
+    margin-top: 30px;
+    background-color: #888;
+    color: #fff;
+    box-shadow: none;
+    border: none;
+    border-top: 1px solid #888;
+    border-bottom: 1px solid #888;
+    font-family: "Yu Mincho";
+    font-weight: bold;
+    font-size: 15px;
+    width: 250px;
+    height: 40px;
+
+    &:hover {
+        background-color: #999;
+    }
+}

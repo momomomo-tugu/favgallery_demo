@@ -17,7 +17,7 @@
                     <li class="item js-item">
                         <div class="card">
                             <a href="../../items/items_controller/items_detail.php?id=<?= $relatedItem['id'] ?>">
-                                <img src="../../assets/images/<?= htmlspecialchars($relatedItem['image_path']) ?>">
+                                <img src="../../assets/images/<?= htmlspecialchars($relatedItem['image_path']) ?>.png">
                             </a>
                             <p class="thumbnailTitle"><?= htmlspecialchars($relatedItem['title']) ?></p>
                         </div>

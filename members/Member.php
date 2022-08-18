@@ -1,17 +1,27 @@
 <?php
-class Member
+
+require_once('../../Common.php');
+
+class Member extends Common
 {
-
-  private function server()
+  static function existCheck($member_name)
   {
-    $pdo = new PDO('mysql:host=127.0.0.1;dbname=hoge;charset=utf8;', 'hogehoge', 'hogehogehoge');
-    return $pdo;
-  }
-
-  private static function static_server()
-  {
-    $pdo = new PDO('mysql:host=127.0.0.1;dbname=hoge;charset=utf8;', 'hogehoge', 'hogehogehoge');
-    return $pdo;
+    $existCheck = 0;
+    try {
+      $pdo = self::static_server();
+      $stmt = $pdo->prepare('SELECT * FROM members WHERE name=:NAME');
+      $stmt->bindParam(':NAME', $member_name);
+      $stmt->execute();
+      $member = $stmt->fetch(PDO::FETCH_ASSOC);
+      if ($member['name'] == $member_name) {
+        return 0;
+      } else {
+        return 1;
+      }
+    } catch (PDOException $e) {
+      var_dump($e);
+      return 1;
+    }
   }
 
   function addMember()
@@ -19,7 +29,6 @@ class Member
     try {
       // メンバーをDBに保存
       $pdo = $this->server();
-      $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
       $stmt = $pdo->prepare('INSERT INTO members (name,password) VALUES (:MEMBER_NAME, :PASSWORD)');
       $stmt->bindParam(':MEMBER_NAME', $this->member_name);
       $stmt->bindParam(':PASSWORD', $this->password);
@@ -33,21 +42,35 @@ class Member
   static function find_account($member_name, $password)
   {
     // DB からレコードを引く処理
-    $staff = array();
+    $member = array();
     try {
       $pdo = self::static_server();
-      $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
       $stmt = $pdo->prepare('SELECT * FROM members WHERE name=:MEMBER_NAME');
       $stmt->bindParam(':MEMBER_NAME', $member_name);
       $stmt->execute();
-      $row = $stmt->fetch(PDO::FETCH_ASSOC);
-      $hashedPassword = $row['password'];
+      $member = $stmt->fetch(PDO::FETCH_ASSOC);
+      $hashedPassword = $member['password'];
       if (password_verify($password, $hashedPassword)) {
-        $staff = $row;
+        return $member;
       }
     } catch (PDOException $e) {
       print 'ただいま障害により大変ご迷惑をおかけしております。';
+      return false;
     }
-    return $staff;
+  }
+
+  function passReset()
+  {
+    try {
+      // パスワードをアップデート
+      $pdo = $this->server();
+      $stmt = $pdo->prepare('UPDATE members SET password=:PASSWORD WHERE name=:MEMBER_NAME');
+      $stmt->bindParam(':MEMBER_NAME', $this->member_name);
+      $stmt->bindParam(':PASSWORD', $this->password);
+      return $stmt->execute();
+    } catch (Exception $e) {
+      print 'ただいま障害により大変ご迷惑をおかけしております。';
+      exit();
+    }
   }
 }

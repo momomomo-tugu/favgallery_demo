@@ -1,0 +1,58 @@
+.loginForm {
+    width: 300px;
+}
+
+.loginFormContent {
+    width: 100%;
+}
+
+.loginForm .loginButton__wrapper {
+    text-align: center;
+}
+
+.loginButton {
+    margin-top: 20px;
+    background-color: #EEEEEE;
+    color: #888;
+    box-shadow: none;
+    border: none;
+    border-top: 1px solid #888;
+    border-bottom: 1px solid #888;
+    font-family: "Yu Mincho";
+    font-weight: bold;
+    font-size: 15px;
+    width: 250px;
+    height: 32px;
+    margin-bottom: 10px;
+}
+
+.loginButton:hover {
+    background-color: #999;
+    color: #fff;
+}
+
+.memberRegistButton {
+    text-decoration: none;
+    color: #888;
+    font-size: 15px;
+    width: 100%;
+    text-align: center;
+    display: inline-block;
+}
+
+.memberRegistButton:hover {
+    color: #00bfff;
+}
+
+.passResetLink {
+    text-decoration: none;
+    color: #888;
+    font-size: 12px;
+    width: 100%;
+    text-align: right;
+    display: inline-block;
+}
+
+.passResetLink:hover {
+    color: #00bfff;
+}

@@ -1,0 +1,3 @@
+<?php
+require_once('../membersModel.php');
+(new MembersModel())->form('members_view/membersPassResetFormView.php');

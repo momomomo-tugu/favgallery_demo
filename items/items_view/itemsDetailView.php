@@ -4,43 +4,45 @@
 <head>
     <title>FAV GALLERY | <?= htmlspecialchars($selectedItem['title']) ?></title>
     <link rel="stylesheet" href="../../css/style.css">
+    <link rel="stylesheet" href="../../css/lightbox.css">
 </head>
 
 <body>
     <main class="mainContainer">
         <div class="itemDetail__head">
             <div class="itemDetail__headImage">
-                <img src="../../assets/images/<?= htmlspecialchars($selectedItem['image_path']) ?>" alt="<?= htmlspecialchars($selectedItem['title']) ?>の画像" class="itemDetail__image">
+                <a href="../../assets/images/<?= htmlspecialchars($selectedItem['image_path']) ?>.png" data-lightbox="image">
+                    <img src="../../assets/images/<?= htmlspecialchars($selectedItem['image_path']) ?>.png" alt="<?= htmlspecialchars($selectedItem['title']) ?>の画像" class="itemDetail__image">
+                </a>
             </div>
             <div class="itemDetail__headInfo">
-                <div class="itemDetail__headInfo__wrapper">
-                    <h2 class="itemDetail__title"><?= htmlspecialchars($selectedItem['title']) ?></h2>
-                    <p class="itemDetail__description">
-                        <?= htmlspecialchars($selectedItem['description']) ?>
-                    </p>
-                    <ul class="itemDetail__tags">
-                        <?php
-                        $taglist = explode(",", $selectedItem['tags']);
-                        array_shift($taglist);
-                        foreach ($taglist as $tag) {
-                        ?>
-                            <li class="itemDetail__tagList">
-                                <a class="itemDetail__tagLink" href="../../tags/tags_controller/tags_search.php?tag=<?= htmlspecialchars($tag) ?>" class="tagList__link"># <?= htmlspecialchars($tag) ?></a>
-                            </li>
-                        <?php } ?>
-                        <li class="itemDetail__tagList">
-                            <?php
-                            if (isset($_SESSION['member_id'])) {
-                                if ($_SESSION['member_id'] == $selectedItem['contributor']) {
-                                    echo '<a href="#">編集</a>';
-                                }
-                            }
-                            ?>
+                <h2 class="itemDetail__title"><?= htmlspecialchars($selectedItem['title']) ?></h2>
+
+                <ul class="itemDetail__tags">
+                    <?php
+                    $taglist = explode(",", $selectedItem['tags']);
+                    array_shift($taglist);
+                    foreach ($taglist as $tag) {
+                    ?>
+                        <li class="itemDetail__tagList nowrap">
+                            <a class="itemDetail__tagLink" href="../../tags/tags_controller/tags_search.php?tag=<?= htmlspecialchars($tag) ?>" class="tagList__link nowrap"># <?= htmlspecialchars($tag) ?></a>
                         </li>
-                    </ul>
-                </div>
+                    <?php } ?>
+                    <li class="itemDetail__tagList">
+                        <?php
+                        if (isset($_SESSION['member_id'])) {
+                            if ($_SESSION['member_id'] == $selectedItem['contributor']) {
+                                echo '<a href="../items_controller/items_editerForm.php?id=' . $selectedItem['id'] . '">編集</a>';
+                            }
+                        }
+                        ?>
+                    </li>
+                </ul>
             </div>
         </div>
+        <p class="itemDetail__description">
+            <?= htmlspecialchars($selectedItem['description']) ?>
+        </p>
 
         <br>
 
@@ -80,6 +82,9 @@
 
         </table>
     </main>
+
+    <script src="../../js/jquery-3.5.1.min.js"></script>
+    <script src="../../js/lightbox.js"></script>
 </body>
 
 </html>

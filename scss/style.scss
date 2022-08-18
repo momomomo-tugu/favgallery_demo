@@ -1,0 +1,38 @@
+body {
+    font-family: "Yu Mincho";
+    height: 100%;
+    box-sizing: border-box;
+    max-width: 980px;
+    margin: 0 auto;    
+}
+
+.errorMessage {
+    color: #f00;
+}
+
+.mainContainer {
+    width: calc(100% - 40px);
+    max-width: 900px;
+    margin: 0 auto;
+    padding-bottom: 40px;
+}
+
+.pageTitle {
+    color: #666;
+    font-size: 25px;
+    font-weight: normal;
+}
+
+.nowrap {
+    display: inline-block;
+}
+
+@import "_header.scss";
+@import "_hamburger.scss";
+@import "_itemDetail.scss";
+@import "_itemsForm.scss";
+@import "_itemsEditerForm.scss";
+@import "_itemsIndex.scss";
+@import "_login.scss";
+@import "_tagForm.scss";
+@import "_tagIndex.scss";

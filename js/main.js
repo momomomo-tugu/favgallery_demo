@@ -4,8 +4,10 @@ $(function () {
     $itemsIndexView.imagesLoaded(function () {
         $itemsIndexView.masonry({
             itemSelector: '.js-item',
-            columnWidth: 305,
+            columnWidth: 205,
             fitWidth: true,
+            // persentposition: true,
+            // gutter: 10,
         });
     });
 });

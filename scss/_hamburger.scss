@@ -1,0 +1,137 @@
+.hamburger {
+    display: none;
+}
+
+.globalMenuSp {
+    display: none;
+}
+
+@media only screen and (max-width:900px) {
+
+    /* ハンバーガーボタン */
+    .hamburger {
+        display : block;
+        position: fixed;
+        z-index : 3;
+        right : 25px;
+        top   : 15px;
+        width : 42px;
+        height: 42px;
+        cursor: pointer;
+        text-align: center;
+    }
+    
+    .hamburger span {
+        display : block;
+        position: absolute;
+        width   : 30px;
+        height  : 2px ;
+        left    : 6px;
+        background : #888;
+        -webkit-transition: 0.5s ease-in-out; /* chrome, safari */
+        -moz-transition   : 0.5s ease-in-out; /* firefox */
+        transition        : 0.5s ease-in-out;
+    }
+    .hamburger span:nth-child(1) {
+        top: 14px;
+    }
+    .hamburger span:nth-child(2) {
+        top: 24px;
+    }
+    .hamburger span:nth-child(3) {
+        top: 34px;
+    }
+
+    /* ナビ開く時のアニメーション */
+    .hamburger.active span:nth-child(1) {
+        top : 23px;
+        left: 6px;
+        background :#888;
+        -webkit-transform: rotate(135deg);
+        -moz-transform   : rotate(135deg);
+        transform        : rotate(135deg);
+    }
+    .hamburger.active span:nth-child(2),
+    .hamburger.active span:nth-child(3) {
+        top: 23px;
+        background :#888;
+        -webkit-transform: rotate(225deg);
+        -moz-transform   : rotate(225deg);
+        transform        : rotate(225deg);
+    }
+    /* ナビゲーション */
+    .globalMenuSp {
+        position: fixed;
+        z-index : 2;
+        top  : 80px;
+        right : 0;
+        width: 50%;
+        height: 100%;
+        color: #fff;
+        background-color: #eee;
+        opacity: 95%;
+        font-size: 20px;
+        // text-align: right;
+        display: none;
+        transition: opacity .5s ease, visibility .5s ease;
+
+        &__header__whois {
+            display: block;
+            width: 100%;
+            margin: 0 auto;
+        }
+
+        &__loginout {
+            display: block;
+            text-align: center;
+            font-size: 16px;
+            line-height: 40px;
+            height: 40px;
+            margin-top: 10px;
+            text-decoration: none;
+            background-color: #999;
+            color: #fff;
+            white-space: nowrap;
+
+            &:visited {
+                color: #fff;
+            }
+        }
+    }
+
+    .globalMenuSp__welcome {
+        color: #444;
+        text-align: center;
+        padding-top: 20px;
+    }
+
+    .globalMenuSp ul {
+        margin: 0 auto;
+        width: 100%;
+    }
+    .hamburger__li {
+        list-style-type: none;
+        padding: 0;
+        width: 100%;
+        transition: .4s all;
+    }
+    .hamburger__li:last-child {
+        padding-bottom: 0;
+    }
+
+    .hamburger__li:hover {
+        width: 100%;
+        background :#cfcfd2ae;
+    }
+    .hamburger__li a {
+        display: block;
+        color: #888;
+        padding: 1em 0;
+        text-decoration :none;
+    }
+    
+    /* このクラスを、jQueryで付与・削除する */
+    .globalMenuSp.active {
+        display: block;
+    }
+}
